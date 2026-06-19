@@ -940,6 +940,10 @@
     document.getElementById('emailCapture').classList.remove('active');
     document.getElementById('resultsSection').classList.add('active');
 
+    // Get email and name
+    const firstName = document.getElementById('firstName').value;
+    const email = document.getElementById('emailInput').value;
+
     // Calculate scores
     const sectionScores = sectionQuestions.map((qs, i) => {
       return qs.reduce((sum, q) => sum + (answers[q] || 0), 0);
@@ -989,6 +993,19 @@
     document.getElementById('scoreTierLabel').textContent = tierLabel;
     document.getElementById('scoreMessage').textContent = message;
     document.getElementById('scoreCard').className = 'score-card ' + tierClass;
+
+    // Send data to Make webhook
+    fetch('https://hook.us2.make.com/s8tc4qekcsejyo9pj8yc17xn8sqdqain', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: firstName,
+        email: email,
+        score: pct,
+        tierLabel: tierLabel,
+        message: message
+      })
+    }).catch(err => console.log('Webhook error:', err));
 
     // Breakdown bars
     sectionScores.forEach((s, i) => {
