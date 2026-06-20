@@ -997,7 +997,7 @@
     // Send data to Make webhook
     fetch('https://hook.us2.make.com/s8tc4qekcsejyo9pj8yc17xn8sqdqain', {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         firstName: firstName,
         email: email,
